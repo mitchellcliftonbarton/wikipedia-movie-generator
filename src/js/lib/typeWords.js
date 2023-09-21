@@ -10,6 +10,6 @@ export default (el, message) => {
     promise.then(() => new Promise(resolve => {
       setTimeout(() => {
         resolve(el && (el.innerHTML += letter))
-      }, 30)
+      }, 50)
     })), Promise.resolve(true))
 }

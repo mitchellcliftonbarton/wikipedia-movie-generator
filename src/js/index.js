@@ -1,7 +1,8 @@
 import './../css/global.css'
 import movies from '../data/movies'
 import getMovieData from './lib/getMovieData'
-import type from './lib/type'
+import flattenSentences from './lib/flattenSentences'
+import Player from './classes/player'
 
 document.addEventListener('DOMContentLoaded', async () => {
   /*
@@ -14,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const textSection = document.getElementById('text-section')
   const textContent = document.getElementById('text-content')
   const movieTitle = document.getElementById('movie-title')
-  // const imagesSection = document.getElementById('images-section')
 
 
   /*
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   */
   
   const movieData = await getMovieData(randomMovie)
-  console.log(movieData)
   
   /*
   -----------
@@ -35,11 +34,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   // add h1 with movie title
   movieTitle.innerHTML = movieData.title
 
-  // type out each sentence in the plot
-  // movieData.plot.paragraphs.forEach((paragraph) => {
-  //   paragraph.sentences.forEach((sentence) => {
-  //     type(textContent, sentence.text)
-  //   })
-  // })
-  type(textContent, movieData.plot.paragraphs[0].sentences[0].text)
+  // create new array with all the sentences
+  const sentences = flattenSentences(movieData.plot.paragraphs)
+
+  console.log(sentences)
+
+  // create new player instance
+  const player = new Player({
+    el: textContent,
+    sentences
+  })
 })
